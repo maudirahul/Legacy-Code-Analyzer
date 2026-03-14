@@ -12,6 +12,7 @@ import Documentation from "./components/documentation/Documentation";
 function App() {
   return (
     <>
+    console.log("THE API URL IS:", import.meta.env.VITE_API_URL);
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
