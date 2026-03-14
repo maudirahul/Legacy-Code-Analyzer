@@ -1,8 +1,6 @@
-# 🔭 CodeInsight (Legacy Code Analyzer)
+# 🔭 ArchLens (Legacy Code Analyzer)
 
 > An automated codebase visualization and AI-powered analysis tool designed to simplify system maintenance, accelerate developer onboarding, and make refactoring legacy code safe and predictable.
-
-Built as an MCA College Project by **Rahul**.
 
 ---
 
@@ -14,7 +12,7 @@ Built as an MCA College Project by **Rahul**.
 * **🔒 Privacy First:** CodeInsight only analyzes structural metadata (imports, exports, file names). Your core business logic and proprietary algorithms are never sent to the AI.
 * **⚡ Modern UI/UX:** Built with React, Tailwind CSS, and global toast notifications for a smooth, app-like experience.
 
-*(Note: Currently, CodeInsight's AST engine exclusively supports **JavaScript/Node.js** environments including React, Express, Vue, etc. Support for Python and Java is planned for future iterations).*
+*(Note: Currently, ArchLens's AST engine exclusively supports **JavaScript/Node.js** environments including React, Express, Vue, etc. Support for Python and Java is planned for future iterations).*
 
 ---
 
@@ -35,4 +33,3 @@ Built as an MCA College Project by **Rahul**.
 
 ---
 
-## 🚀 Getting Started
