@@ -12,9 +12,6 @@ import Documentation from "./components/documentation/Documentation";
 function App() {
   return (
     <>
-    <div style={{ background: 'red', color: 'white', padding: '20px', textAlign: 'center', zIndex: 9999, position: 'relative' }}>
-        DEBUG URL: {import.meta.env.VITE_API_URL || "VARIABLE IS MISSING!"}
-      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
