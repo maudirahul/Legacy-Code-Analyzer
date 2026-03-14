@@ -12,7 +12,9 @@ import Documentation from "./components/documentation/Documentation";
 function App() {
   return (
     <>
-    console.log("THE API URL IS:", import.meta.env.VITE_API_URL);
+    <div style={{ background: 'red', color: 'white', padding: '20px', textAlign: 'center', zIndex: 9999, position: 'relative' }}>
+        DEBUG URL: {import.meta.env.VITE_API_URL || "VARIABLE IS MISSING!"}
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -21,6 +23,7 @@ function App() {
         <Route path="/docs" element={<Documentation />} />
       </Routes>
 
+    console.log("THE API URL IS:", import.meta.env.VITE_API_URL);
       <ToastContainer
         position="bottom-right"
         theme="dark"
