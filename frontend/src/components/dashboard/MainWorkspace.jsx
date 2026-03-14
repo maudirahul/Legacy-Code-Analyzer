@@ -1,10 +1,8 @@
 import { useState, useRef } from "react";
 import { useUploadZip, useAnalyzeGithub } from "../../hooks/useUpload";
 import { Link } from "react-router-dom";
-import { toast
-
- } from "react-toastify";
-const MainWorkspace = ({onUploadSuccess}) => {
+import { toast } from "react-toastify";
+const MainWorkspace = ({ onUploadSuccess }) => {
   const [uploadMethod, setUploadMethod] = useState("zip");
   const [isDragging, setIsDragging] = useState(false);
   const [githubUrl, setGithubUrl] = useState("");
@@ -37,22 +35,21 @@ const MainWorkspace = ({onUploadSuccess}) => {
     if (files.length > 0) {
       const file = files[0];
       if (file.type === "application/zip" || file.name.endsWith(".zip")) {
-      uploadZip(file, {
-        onSuccess: (data) => {
-          console.log("Success:", data);
-          // Instantly switch to the Graph View!
-          if (data.projectId) onUploadSuccess(data.projectId);
-          toast.success("Project Analyzed")
-        },
-        onError: (err) => {
-          console.error("Error:", err)
-        toast.error("Project upload failed")
-        }
-
-      });
-    } else {
-      alert("Please upload a valid .zip file.");
-    }
+        uploadZip(file, {
+          onSuccess: (data) => {
+            console.log("Success:", data);
+            // Instantly switch to the Graph View!
+            if (data.projectId) onUploadSuccess(data.projectId);
+            toast.success("Project Analyzed");
+          },
+          onError: (err) => {
+            console.error("Error:", err);
+            toast.error("Project upload failed");
+          },
+        });
+      } else {
+        alert("Please upload a valid .zip file.");
+      }
     }
   };
 
@@ -76,12 +73,12 @@ const MainWorkspace = ({onUploadSuccess}) => {
           console.log("Success:", data);
           setGithubUrl("");
           if (data.projectId) onUploadSuccess(data.projectId);
-          toast.success("Project Analyzed")
+          toast.success("Project Analyzed");
         },
-         onError: (err) => {
-          console.error("Error:", err)
-        toast.error("Project upload failed")
-        }
+        onError: (err) => {
+          console.error("Error:", err);
+          toast.error("Project upload failed");
+        },
       });
     }
   };
@@ -91,11 +88,43 @@ const MainWorkspace = ({onUploadSuccess}) => {
       <header className="h-16 flex items-center justify-between px-8 border-b border-white/10 bg-[#09090b]/80 backdrop-blur-sm z-10 shrink-0">
         <h1 className="text-lg font-semibold text-white">Project Workspace</h1>
         <div className="flex items-center gap-4">
-          <Link to={"/docs"} className="text-sm px-4 py-1.5 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-slate-300 cursor-pointer">
+          <Link
+            to={"/docs"}
+            className="text-sm px-4 py-1.5 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-slate-300 cursor-pointer"
+          >
             Documentation
           </Link>
         </div>
       </header>
+
+      <div className="flex justify-center mt-0.5 mb-0">
+        <div className="w-full max-w-2xl mb-6 bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4 flex  items-center gap-3 shadow-lg shadow-indigo-500/5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <svg
+            className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div>
+            <h4 className="text-sm font-semibold text-indigo-300 mb-0.5">
+              Language Support Notice
+            </h4>
+            <p className="text-sm text-indigo-200/70 leading-relaxed">
+              Currently, this analyzer only supports{" "}
+              <strong>JavaScript/Node.js</strong> environments (including React,
+              Express, Vue, etc.). Support for Python, Java, and Go is currently
+              in active development and coming soon!
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
         <div className="w-full max-w-2xl bg-[#0a0a0c] border border-white/10 rounded-2xl shadow-2xl overflow-hidden relative z-10 transition-all duration-300">
@@ -125,7 +154,7 @@ const MainWorkspace = ({onUploadSuccess}) => {
             </div>
           )}
 
-          <div className="p-8 h-80 flex flex-col justify-center items-center relative">
+          <div className="p-8 h-70 flex flex-col justify-center items-center relative">
             {/* === PROCESSING STATE UI === */}
             {isProcessing ? (
               <div className="flex flex-col items-center justify-center animate-in fade-in zoom-in duration-500">
