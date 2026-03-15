@@ -19,9 +19,17 @@ const signup = async (req, res) => {
       password: hashedPassword,
     });
 
+    //jwt token generation
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
     return res.status(201).json({
       message: "user created successfully",
       user: { id: user._id, name: user.name, email: user.email },
+      token: token,
     });
   } catch (error) {
     console.log(error);
@@ -44,7 +52,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
     return res.status(200).json({

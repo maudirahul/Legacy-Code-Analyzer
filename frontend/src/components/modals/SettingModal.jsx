@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SettingsModal = ({ isOpen, onClose, isDarkMode, toggleDarkMode }) => {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ const SettingsModal = ({ isOpen, onClose, isDarkMode, toggleDarkMode }) => {
   const handleLogout = () => {
     localStorage.removeItem("token"); 
     navigate("/"); 
+    toast.success("Logged out successfully")
   };
 
   return (
