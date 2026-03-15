@@ -73,31 +73,28 @@ const login = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
+  let user;
+
   try {
-    const user = await User.findOne({ email: req.body.email });
+    user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res
         .status(404)
         .json({ message: "There is no user with that email address." });
     }
 
-    // 1. Generate a random reset token
     const resetToken = crypto.randomBytes(20).toString("hex");
 
-    // 2. Hash it and save to the user's database document
     user.resetPasswordToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
-    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // Expires in 15 minutes
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-    // Validate false allows to save just these two fields without triggering other schema rules
     await user.save({ validateBeforeSave: false });
 
-    // 3. Create the reset URL 
-    const resetUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-    // 4. Create the email content
     const message = `
       <h2>Password Reset Request</h2>
       <p>You requested a password reset for your ArchLens account.</p>
@@ -106,7 +103,6 @@ const forgotPassword = async (req, res) => {
       <p>If you didn't request this, please ignore this email.</p>
     `;
 
-    // 5. Fire off the email!
     await sendEmail({
       email: user.email,
       subject: "ArchLens - Password Reset Token",
@@ -115,13 +111,15 @@ const forgotPassword = async (req, res) => {
 
     res.status(200).json({ message: "Reset link sent to email!" });
   } catch (error) {
-    console.error(error);
+    // 2. Log the REAL error so we can read it!
+    console.error("EMAIL SENDING ERROR:", error);
 
-    // If the email fails to send, clear the temporary tokens from the database
-    // so the user can try again!
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-    await user.save({ validateBeforeSave: false });
+    // 3. Now this will work perfectly because 'user' is defined at the top
+    if (user) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save({ validateBeforeSave: false });
+    }
 
     return res
       .status(500)
