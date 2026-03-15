@@ -1,28 +1,20 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require('resend');
+
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async (options) => {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587, 
-    secure: false, 
-    family: 4,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-
-  const mailOptions = {
-    from: `ArchLens Support <${process.env.EMAIL_USERNAME}>`,
-    to: options.email,
-    subject: options.subject,
-    html: options.html,
-  };
-
-  await transporter.sendMail(mailOptions);
+  try {
+    const data = await resend.emails.send({
+      from: 'ArchLens Support <onboarding@resend.dev>',
+      to: options.email, 
+      
+      subject: options.subject,
+      html: options.html,
+    });
+  } catch (error) {
+    throw new Error("Email could not be sent");
+  }
 };
 
 module.exports = sendEmail;
