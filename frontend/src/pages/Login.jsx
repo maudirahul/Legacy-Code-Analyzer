@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useAuth";
+import { toast } from "react-toastify"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Login = () => {
     login(formData, {
       onSuccess: () => {
         navigate("/dashboard");
+        toast.success("Logged in successfully")
       },
     });
   };

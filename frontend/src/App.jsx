@@ -20,7 +20,6 @@ function App() {
         <Route path="/docs" element={<Documentation />} />
       </Routes>
 
-    console.log("THE API URL IS:", import.meta.env.VITE_API_URL);
       <ToastContainer
         position="bottom-right"
         theme="dark"
