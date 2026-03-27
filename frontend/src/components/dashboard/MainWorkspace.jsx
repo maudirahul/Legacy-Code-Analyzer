@@ -57,7 +57,7 @@ const MainWorkspace = ({ onUploadSuccess }) => {
   const handleFileSelect = (e) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      processZipFile(files[0]);
+      uploadZip(files[0]);
     }
     // Clear the input value so the same file can be selected again if needed
     if (fileInputRef.current) {

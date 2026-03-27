@@ -20,8 +20,6 @@ export const useUploadZip = () => {
       formData.append("projectName", cleanName);
 
       // 3. Hit the correct unified upload route
-      // (Note: if your router is mounted on something like /api/projects,
-      // change this to "/projects/upload")
       const response = await api.post("/project/upload", formData);
       return response.data;
     },
